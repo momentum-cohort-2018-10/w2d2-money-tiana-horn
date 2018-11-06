@@ -1,6 +1,6 @@
 class DifferentCurrencyError(Exception):
     raise ValueError("Those are different currencies")
-
+    
 
 class Currency:
     """
@@ -25,7 +25,10 @@ class Currency:
         """
         Should return the currency code, or code with symbol in parentheses.
         """
-        return f"{self.code} ({self.symbol})" or f"{self.code}"
+        if self.symbol is None:
+            return f"{self.code}"
+        else:
+            return f"({self.code} {self.symbol})"
 
     def __eq__(self, other):
         """
@@ -47,7 +50,7 @@ class Money:
         - amount -- quantity of currency
         - currency -- type of currency
         """
-       Money = []
+        Money = []
         self.amount = amount
         self.currency = currency
         if self.amount == int:
@@ -62,7 +65,7 @@ class Money:
         Use the currency digits to determine number of digits to show.
         """
 
-        return f"{self.symbol}{self.amount}"
+        return f"{self.currency.symbol}{self.currency.amount}"
 
     def __repr__(self):
         return f"<Money {str(self)}>"
@@ -80,9 +83,9 @@ class Money:
         currencies, raise a DifferentCurrencyError.
         """
         amount = 0
-        if self.code == other.code:
-            amount = self.amount + other.amount
-            return amount,self.code
+        if self.currency.code == other.curreny.code:
+            amount = self.currency.amount + other.currency.amount
+            return(amount,self.currency.code)
         else:
             DifferentCurrencyError()
 
@@ -92,9 +95,9 @@ class Money:
         currencies, raise a DifferentCurrencyError.
         """
         amount = 0
-        if self.code == other.code:
-            amount = self.amount - other.amount
-            return amount,self.code
+        if self.currency.code == other.currency.code:
+            amount = self.currency.amount - other.currency.amount
+            return amount,self.curreny.code
         else:
             DifferentCurrencyError()
 
@@ -109,3 +112,4 @@ class Money:
         Divide a money object by a number to get a new money object.
         """
         pass
+
